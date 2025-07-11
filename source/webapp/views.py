@@ -1,16 +1,14 @@
-from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from .models import Issue
 from .forms import IssueForm
 
 
-class IssueListView(TemplateView):
+class IssueListView(ListView):
+    model = Issue
     template_name = 'issue_list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['issues'] = Issue.objects.all().order_by('-created_at')
-        return context
+    context_object_name = 'issues'
+    ordering = ['-created_at']
 
 
 class IssueDetailView(DetailView):
@@ -36,4 +34,5 @@ class IssueDeleteView(DeleteView):
     model = Issue
     template_name = 'issue_confirm_delete.html'
     success_url = reverse_lazy('issue_list')
+
 

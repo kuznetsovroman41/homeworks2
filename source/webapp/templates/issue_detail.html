@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ object.summary }}{% endblock %}
+
+{% block content %}
+    <h1>{{ object.summary }}</h1>
+    <p><strong>Описание:</strong> {{ object.description|default:"—" }}</p>
+    <p><strong>Статус:</strong> {{ object.status }}</p>
+    <p><strong>Типы:</strong> {{ object.types.all|join:", " }}</p>
+    <p><strong>Создано:</strong> {{ object.created_at }}</p>
+    <p><strong>Обновлено:</strong> {{ object.updated_at }}</p>
+
+    <a href="{% url 'issue_edit' pk=object.pk %}" class="btn btn-warning">Редактировать</a>
+    <a href="{% url 'issue_delete' pk=object.pk %}" class="btn btn-danger">Удалить</a>
+    <a href="{% url 'issue_list' %}" class="btn btn-secondary">Назад</a>
+{% endblock %}
