@@ -27,6 +27,16 @@ class Issue(models.Model):
     types = models.ManyToManyField('IssueType', verbose_name='Тип')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
+    project = models.ForeignKey('Project', null=True, on_delete=models.CASCADE, verbose_name='Проект')
 
     def __str__(self):
         return self.summary
+
+class Project(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Название проекта')
+    description = models.TextField(blank=True, verbose_name='Описание проекта')
+    start_date = models.DateField(verbose_name='Дата начала')
+    end_date = models.DateField(blank=True, null=True, verbose_name='Дата окончания')
+
+    def __str__(self):
+        return self.name
