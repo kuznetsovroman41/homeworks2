@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}
+    {% if object %}Редактировать проект{% else %}Добавить проект{% endif %}
+{% endblock %}
+
+{% block content %}
+<h1>{% if object %}Редактировать проект{% else %}Добавить проект{% endif %}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <a href="{% url 'project_list' %}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Проект: {{ project.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ project.name }}</h1>
+<p><strong>Описание:</strong> {{ project.description|linebreaks }}</p>
+<p><strong>Дата начала:</strong> {{ project.start_date }}</p>
+{% if project.end_date %}
+<p><strong>Дата окончания:</strong> {{ project.end_date }}</p>
+{% endif %}
+
+<h2>Задачи проекта</h2>
+{% if issues %}
+    <ul class="list-group mb-3">
+        {% for issue in issues %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    {{ issue.summary }}
+                </div>
+                <div>
+                    <a href="{% url 'issue_detail' issue.pk %}" class="btn btn-sm btn-primary">Просмотр</a>
+                    <a href="{% url 'issue_edit' issue.pk %}" class="btn btn-sm btn-warning">Редактировать</a>
+                    <a href="{% url 'issue_delete' issue.pk %}" class="btn btn-sm btn-danger">Удалить</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Задач пока нет.</p>
+{% endif %}
+
+<a href="{% url 'issue_add' project.pk %}" class="btn btn-success mb-3">Добавить задачу</a><br>
+
+<a href="{% url 'project_edit' project.pk %}" class="btn btn-secondary">Редактировать проект</a>
+<a href="{% url 'project_delete' project.pk %}" class="btn btn-danger">Удалить проект</a>
+<a href="{% url 'project_list' %}" class="btn btn-primary">Вернуться к списку проектов</a>
+
+{% endblock %}
