@@ -1,38 +1,116 @@
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
-from django.urls import reverse_lazy
-from .models import Issue
+from django.shortcuts import get_object_or_404
+from django.urls import reverse, reverse_lazy
+from django.views.generic import (
+    ListView, DetailView, CreateView, UpdateView, DeleteView
+)
+from .models import Project, Issue
 from .forms import IssueForm
+from django.db.models import Q
+
+class ProjectListView(ListView):
+    model = Project
+    paginate_by = 5
+    template_name = 'project_list.html'
+    context_object_name = 'projects'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        q = self.request.GET.get('q')
+        if q:
+            queryset = queryset.filter(
+                Q(name__icontains=q) | Q(description__icontains=q)
+            )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['q'] = self.request.GET.get('q', '')
+        return context
 
 
-class IssueListView(ListView):
+class ProjectDetailView(DetailView):
+    model = Project
+    template_name = 'project_detail.html'
+    context_object_name = 'project'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['issues'] = self.object.issue_set.all()
+        return context
+
+
+class ProjectCreateView(CreateView):
+    model = Project
+    fields = ['name', 'description', 'start_date', 'end_date']
+    template_name = 'project_form.html'
+    success_url = reverse_lazy('project_list')
+
+class ProjectUpdateView(UpdateView):
+    model = Project
+    fields = ['name', 'description', 'start_date', 'end_date']
+    template_name = 'project_form.html'
+
+
+class ProjectDeleteView(DeleteView):
+    model = Project
+    template_name = 'project_confirm_delete.html'
+    success_url = reverse_lazy('project_list')
+
+class IssueCreateView(CreateView):
     model = Issue
-    template_name = 'issue_list.html'
-    context_object_name = 'issues'
-    ordering = ['-created_at']
+    form_class = IssueForm
+    template_name = 'issue_form.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.project_pk = kwargs.get('project_pk')
+        self.project = get_object_or_404(Project, pk=self.project_pk)
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.project = self.project
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project_pk'] = self.project_pk
+        context['project'] = self.project
+        return context
+
+    def get_success_url(self):
+        return reverse('project_detail', kwargs={'pk': self.project_pk})
+
 
 
 class IssueDetailView(DetailView):
     model = Issue
     template_name = 'issue_detail.html'
 
-
-class IssueCreateView(CreateView):
-    model = Issue
-    form_class = IssueForm
-    template_name = 'issue_form.html'
-    success_url = reverse_lazy('issue_list')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project'] = self.object.project
+        return context
 
 
 class IssueUpdateView(UpdateView):
     model = Issue
     form_class = IssueForm
     template_name = 'issue_form.html'
-    success_url = reverse_lazy('issue_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project_pk'] = self.object.project.pk
+        return context
+
+    def get_success_url(self):
+        return reverse('project_detail', kwargs={'pk': self.object.project.pk})
+
 
 
 class IssueDeleteView(DeleteView):
     model = Issue
     template_name = 'issue_confirm_delete.html'
-    success_url = reverse_lazy('issue_list')
+
+    def get_success_url(self):
+        return reverse('project_detail', kwargs={'pk': self.object.project.pk})
 
 
