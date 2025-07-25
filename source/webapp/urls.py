@@ -3,6 +3,7 @@ from .views import (
     ProjectListView, ProjectDetailView, ProjectCreateView, ProjectUpdateView, ProjectDeleteView,
     IssueCreateView, IssueDetailView, IssueUpdateView, IssueDeleteView,
 )
+app_name = 'webapp'
 
 urlpatterns = [
     path('', ProjectListView.as_view(), name='project_list'),
