@@ -18,8 +18,8 @@
         <ul class="list-group mb-4">
             {% for project in projects %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="{% url 'project_detail' project.pk %}" class="fw-bold">{{ project.name }}</a>
-                    <a href="{% url 'project_edit' project.pk %}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                    <a href="{% url 'webapp:project_detail' project.pk %}" class="fw-bold">{{ project.name }}</a>
+                    <a href="{% url 'webapp:project_edit' project.pk %}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
                 </li>
             {% endfor %}
         </ul>
@@ -58,7 +58,7 @@
     {% endif %}
 
     <div class="mt-4">
-        <a href="{% url 'project_add' %}" class="btn btn-success">Создать новый проект</a>
+        <a href="{% url 'webapp:project_add' %}" class="btn btn-success">Создать новый проект</a>
     </div>
 </div>
 {% endblock %}

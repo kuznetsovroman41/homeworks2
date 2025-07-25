@@ -6,6 +6,7 @@ from django.views.generic import (
 from .models import Project, Issue
 from .forms import IssueForm
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class ProjectListView(ListView):
     model = Project
@@ -39,24 +40,24 @@ class ProjectDetailView(DetailView):
         return context
 
 
-class ProjectCreateView(CreateView):
+class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
     fields = ['name', 'description', 'start_date', 'end_date']
     template_name = 'project_form.html'
-    success_url = reverse_lazy('project_list')
+    success_url = reverse_lazy('webapp:project_list')
 
-class ProjectUpdateView(UpdateView):
+class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Project
     fields = ['name', 'description', 'start_date', 'end_date']
     template_name = 'project_form.html'
 
 
-class ProjectDeleteView(DeleteView):
+class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
     template_name = 'project_confirm_delete.html'
-    success_url = reverse_lazy('project_list')
+    success_url = reverse_lazy('webapp:project_list')
 
-class IssueCreateView(CreateView):
+class IssueCreateView(LoginRequiredMixin, CreateView):
     model = Issue
     form_class = IssueForm
     template_name = 'issue_form.html'
@@ -77,11 +78,11 @@ class IssueCreateView(CreateView):
         return context
 
     def get_success_url(self):
-        return reverse('project_detail', kwargs={'pk': self.project_pk})
+        return reverse('webapp:project_detail', kwargs={'pk': self.project_pk})
 
 
 
-class IssueDetailView(DetailView):
+class IssueDetailView(LoginRequiredMixin, DetailView):
     model = Issue
     template_name = 'issue_detail.html'
 
@@ -91,7 +92,7 @@ class IssueDetailView(DetailView):
         return context
 
 
-class IssueUpdateView(UpdateView):
+class IssueUpdateView(LoginRequiredMixin, UpdateView):
     model = Issue
     form_class = IssueForm
     template_name = 'issue_form.html'
@@ -102,15 +103,15 @@ class IssueUpdateView(UpdateView):
         return context
 
     def get_success_url(self):
-        return reverse('project_detail', kwargs={'pk': self.object.project.pk})
+        return reverse('webapp:project_detail', kwargs={'pk': self.object.project.pk})
 
 
 
-class IssueDeleteView(DeleteView):
+class IssueDeleteView(LoginRequiredMixin, DeleteView):
     model = Issue
     template_name = 'issue_confirm_delete.html'
 
     def get_success_url(self):
-        return reverse('project_detail', kwargs={'pk': self.object.project.pk})
+        return reverse('webapp:project_detail', kwargs={'pk': self.object.project.pk})
 
 

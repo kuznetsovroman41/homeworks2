@@ -18,9 +18,9 @@
                     {{ issue.summary }}
                 </div>
                 <div>
-                    <a href="{% url 'issue_detail' issue.pk %}" class="btn btn-sm btn-primary">Просмотр</a>
-                    <a href="{% url 'issue_edit' issue.pk %}" class="btn btn-sm btn-warning">Редактировать</a>
-                    <a href="{% url 'issue_delete' issue.pk %}" class="btn btn-sm btn-danger">Удалить</a>
+                    <a href="{% url 'webapp:issue_detail' issue.pk %}" class="btn btn-sm btn-primary">Просмотр</a>
+                    <a href="{% url 'webapp:issue_edit' issue.pk %}" class="btn btn-sm btn-warning">Редактировать</a>
+                    <a href="{% url 'webapp:issue_delete' issue.pk %}" class="btn btn-sm btn-danger">Удалить</a>
                 </div>
             </li>
         {% endfor %}
@@ -29,10 +29,10 @@
     <p>Задач пока нет.</p>
 {% endif %}
 
-<a href="{% url 'issue_add' project.pk %}" class="btn btn-success mb-3">Добавить задачу</a><br>
+<a href="{% url 'webapp:issue_add' project.pk %}" class="btn btn-success mb-3">Добавить задачу</a><br>
 
-<a href="{% url 'project_edit' project.pk %}" class="btn btn-secondary">Редактировать проект</a>
-<a href="{% url 'project_delete' project.pk %}" class="btn btn-danger">Удалить проект</a>
-<a href="{% url 'project_list' %}" class="btn btn-primary">Вернуться к списку проектов</a>
+<a href="{% url 'webapp:project_edit' project.pk %}" class="btn btn-secondary">Редактировать проект</a>
+<a href="{% url 'webapp:project_delete' project.pk %}" class="btn btn-danger">Удалить проект</a>
+<a href="{% url 'webapp:project_list' %}" class="btn btn-primary">Вернуться к списку проектов</a>
 
 {% endblock %}

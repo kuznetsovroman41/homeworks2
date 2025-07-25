@@ -9,8 +9,8 @@
     <p><strong>Создано:</strong> {{ object.created_at }}</p>
     <p><strong>Обновлено:</strong> {{ object.updated_at }}</p>
 
-<a href="{% url 'issue_edit' pk=object.pk %}" class="btn btn-warning">Редактировать</a>
-<a href="{% url 'issue_delete' pk=object.pk %}" class="btn btn-danger">Удалить</a>
-<a href="{% url 'project_detail' pk=object.project.pk %}" class="btn btn-secondary">Назад</a>
+<a href="{% url 'webapp:issue_edit' pk=object.pk %}" class="btn btn-warning">Редактировать</a>
+<a href="{% url 'webapp:issue_delete' pk=object.pk %}" class="btn btn-danger">Удалить</a>
+<a href="{% url 'webapp:project_detail' pk=object.project.pk %}" class="btn btn-secondary">Назад</a>
 
 {% endblock %}
