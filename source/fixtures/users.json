@@ -1,0 +1,84 @@
+[
+{
+  "model": "accounts.customuser",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$iK4a3LA7Ol5CZi9lGgY938$NZvL+1d1Sx/tybGurbMjdSL3yMTzqNLMpQ5dxVMBVZs=",
+    "last_login": "2025-07-29T09:15:11.066Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-07-25T06:48:57.999Z",
+    "bio": null,
+    "email": "",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$p8cEXPNlmX0QvlY0gRDhcz$JQaJhf9VMvhv5faJY5uUFg+b4EyD/StiLKV7qIgAkBg=",
+    "last_login": "2025-07-29T09:43:29.124Z",
+    "is_superuser": false,
+    "username": "lead",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-07-29T08:37:45Z",
+    "bio": null,
+    "email": "lead@example.com",
+    "groups": [
+      2
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$PJ6uvVWeA18qEaIqSHzCvm$nmAusfwaF81RpqEDJYqh1Tn1Bw2ARxRgvGdx3LmxXE4=",
+    "last_login": "2025-07-29T09:44:36.850Z",
+    "is_superuser": false,
+    "username": "dev",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-07-29T08:37:45Z",
+    "bio": null,
+    "email": "dev@example.com",
+    "groups": [
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.customuser",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$gJpXMjh92YYj1IKfLGJv9W$f0KlmfngnwPw7bXMF0TXS8AL7NIQ5I4d/Bznbr5WEG4=",
+    "last_login": "2025-07-29T09:45:23.952Z",
+    "is_superuser": false,
+    "username": "manager",
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-07-29T08:41:19Z",
+    "bio": null,
+    "email": "manager@example.com",
+    "groups": [
+      1
+    ],
+    "user_permissions": []
+  }
+}
+]
