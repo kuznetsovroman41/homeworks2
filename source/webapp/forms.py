@@ -20,6 +20,14 @@ User = get_user_model()
 
 class ProjectUserForm(forms.Form):
     users = forms.ModelMultipleChoiceField(
-        queryset=User.objects.all(),
+        queryset=User.objects.none(),
         widget=forms.CheckboxSelectMultiple
     )
+
+    def __init__(self, *args, **kwargs):
+        queryset = kwargs.pop('queryset', None)
+        super().__init__(*args, **kwargs)
+        if queryset is not None:
+            self.fields['users'].queryset = queryset
+        else:
+            self.fields['users'].queryset = User.objects.all()

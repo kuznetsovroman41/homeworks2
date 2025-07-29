@@ -37,7 +37,9 @@ class Project(models.Model):
     description = models.TextField(blank=True, verbose_name='Описание проекта')
     start_date = models.DateField(verbose_name='Дата начала')
     end_date = models.DateField(blank=True, null=True, verbose_name='Дата окончания')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='owned_projects')
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='projects')
 
     def __str__(self):
         return self.name
+
