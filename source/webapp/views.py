@@ -1,10 +1,10 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render,redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
 )
 from .models import Project, Issue
-from .forms import IssueForm
+from .forms import IssueForm, ProjectUserForm
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -37,6 +37,7 @@ class ProjectDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['issues'] = self.object.issue_set.all()
+        context['users'] = self.object.users.all()
         return context
 
 
@@ -115,3 +116,15 @@ class IssueDeleteView(LoginRequiredMixin, DeleteView):
         return reverse('webapp:project_detail', kwargs={'pk': self.object.project.pk})
 
 
+def manage_project_users(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+
+    if request.method == 'POST':
+        form = ProjectUserForm(request.POST)
+        if form.is_valid():
+            project.users.set(form.cleaned_data['users'])
+            return redirect('webapp:project_detail', pk=project.id)
+    else:
+        form = ProjectUserForm(initial={'users': project.users.all()})
+
+    return render(request, 'manage_users.html', {'form': form, 'project': project})

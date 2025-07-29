@@ -1,6 +1,6 @@
 from django.db import models
 from .validation import validate_no_bug_in_summary, validate_summary_length
-
+from django.conf import settings
 
 class IssueStatus(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -37,6 +37,7 @@ class Project(models.Model):
     description = models.TextField(blank=True, verbose_name='Описание проекта')
     start_date = models.DateField(verbose_name='Дата начала')
     end_date = models.DateField(blank=True, null=True, verbose_name='Дата окончания')
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='projects')
 
     def __str__(self):
         return self.name
